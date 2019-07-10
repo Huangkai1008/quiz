@@ -20,6 +20,11 @@ def create_app():
     """Factory Pattern: Create Flask app"""
     configure_sentry()
     app = QuizFlask(__name__)
+    configure_app(app)
+    configure_blueprints(app)
+    configure_extensions(app)
+    configure_logging(app)
+    configure_errors(app)
 
     return app
 
