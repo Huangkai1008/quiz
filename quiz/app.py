@@ -4,6 +4,7 @@ import sentry_sdk
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 from quiz.tools import QuizFlask
+from quiz.config import config_from_object
 
 
 def create_app():
@@ -22,3 +23,8 @@ def configure_sentry():
         dsn=os.environ.get('DSN'),
         integrations=[FlaskIntegration()]
     )
+
+
+def configure_app(app):
+    """配置app"""
+    config_from_object(app)
