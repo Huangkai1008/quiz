@@ -13,6 +13,7 @@ from werkzeug.exceptions import HTTPException
 from quiz.tools import QuizFlask
 from quiz.config import config_from_object
 from quiz.api import index
+from quiz.extensions import cors
 
 
 def create_app():
@@ -45,7 +46,7 @@ def configure_blueprints(app):
 
 def configure_extensions(app):
     """配置扩展"""
-    pass
+    cors.init_app(app)
 
 
 def configure_logging(app):
