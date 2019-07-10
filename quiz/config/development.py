@@ -9,5 +9,5 @@ from pathlib import Path
 SQLALCHEMY_DATABASE_URI = os.environ.get('DEVELOPMENT_DATABASE_URL')
 
 # ================ additional ================
-ROOT_PATH = Path.cwd()  # 根目录 /zone
+ROOT_PATH = Path.cwd()  # 根目录 /quiz
 LOG_PATH = Path(ROOT_PATH, 'logs')  # 日志目录
