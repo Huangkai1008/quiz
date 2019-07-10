@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+sentry-sdk = {extras = ["flask"],version = "==0.10.0"}
 
 [requires]
 python_version = "3.7"
