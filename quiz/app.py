@@ -5,6 +5,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 
 from quiz.tools import QuizFlask
 from quiz.config import config_from_object
+from quiz.api import index
 
 
 def create_app():
@@ -28,3 +29,13 @@ def configure_sentry():
 def configure_app(app):
     """配置app"""
     config_from_object(app)
+
+
+def configure_blueprints(app):
+    """配置蓝图"""
+    app.register_blueprint(index.bp)
+
+
+def configure_extensions(app):
+    """配置扩展"""
+    pass
