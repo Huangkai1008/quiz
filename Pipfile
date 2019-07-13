@@ -13,6 +13,7 @@ flask-sqlalchemy = "==2.4.0"
 flask-migrate = "==2.5.2"
 pymysql = "==0.9.3"
 pyjwt = "==1.7.1"
+jsonschema = {extras = ["format"],version = "==3.0.1"}
 
 [requires]
 python_version = "3.7"
