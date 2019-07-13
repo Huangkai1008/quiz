@@ -3,6 +3,8 @@ import datetime as dt
 from quiz.model.base import Model
 from quiz.extensions import db
 
+__all__ = ['User']
+
 
 class User(Model):
     """
