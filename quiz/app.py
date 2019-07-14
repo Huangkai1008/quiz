@@ -12,7 +12,7 @@ from werkzeug.exceptions import HTTPException
 
 from quiz.tools import QuizFlask
 from quiz.config import config_from_object
-from quiz.api import index
+from quiz.api import index, user
 from quiz.extensions import cors, db, migrate
 
 
@@ -47,6 +47,7 @@ def configure_app(app):
 def configure_blueprints(app):
     """配置蓝图"""
     app.register_blueprint(index.bp)
+    app.register_blueprint(user.bp)
 
 
 def configure_extensions(app):
