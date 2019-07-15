@@ -7,3 +7,5 @@ class RegisterSchema(Schema):
     注册
     """
     _schema = UserSchemas.REG_SCHEMA.value
+
+
