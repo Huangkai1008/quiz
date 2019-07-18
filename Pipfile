@@ -1,6 +1,6 @@
 [[source]]
 name = "pypi"
-url = "https://pypi.org/simple"
+url = "https://pypi.douban.com/simple"
 verify_ssl = true
 
 [dev-packages]
@@ -15,6 +15,8 @@ pymysql = "==0.9.3"
 pyjwt = "==1.7.1"
 jsonschema = {extras = ["format"],version = "==3.0.1"}
 celery = {extras = ["auth", "eventlet", "librabbitmq", "msgpack", "redis"],version = "==4.3.0"}
+Flask-Mail = "==0.9.1"
+gevent = "==1.4.0"
 
 [requires]
 python_version = "3.7"
