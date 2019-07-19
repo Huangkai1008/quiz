@@ -128,3 +128,7 @@ dmypy.json
 .idea
 .vscode
 
+
+# migration
+migrations
+
