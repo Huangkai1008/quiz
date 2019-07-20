@@ -15,19 +15,26 @@ class Schema:
 
     @property
     def schema(self):
-        return self.schema
+        return self._schema
+
+    @property
+    def fields(self):
+        yield from self._schema.get('properties')
 
     def validate(self):
         """验证实例 validate the instance with the schema"""
+
         _validator = Draft4Validator(self._schema, format_checker=draft4_format_checker)
 
         errors = sorted(_validator.iter_errors(self.instance), key=lambda e: e.path)
         for error in errors:
             raise ValidateException(error.message)
 
+        self.validate_extra()
 
-class SchemaMixin:
-    """
-    扩展schema
-    """
-    pass
+    def validate_extra(self):
+        """验证其他字段"""
+        for field in self.fields:
+            validate_field = getattr(self, f'validate_{field}', None)
+            if validate_field:
+                validate_field()

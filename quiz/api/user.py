@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 
 from quiz.schema.user import RegisterSchema
+from quiz.resource.user import user_resource
 
 bp = Blueprint('user', __name__, url_prefix='/users')
 
@@ -15,4 +16,7 @@ def register():
 
     reg_schema = RegisterSchema(reg)
     reg_schema.validate()
-    return reg
+    user = user_resource.user_register(username=reg['username'],
+                                       email=reg['email'],
+                                       password=reg['password'])
+    return dict(user)

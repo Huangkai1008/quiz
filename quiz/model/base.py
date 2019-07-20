@@ -7,6 +7,16 @@ class ModelMixin:
     """
     _hide_columns = set()  # 序列化时隐藏的字段
 
+    def create(self, commit=True):
+        db.session.add(self)
+        if commit:
+            db.session.commit()
+
+    def update(self, commit=True):
+        db.session.merge(self)
+        if commit:
+            db.session.commit()
+
     @property
     def columns(self):
         all_columns = {c.name for c in self.__table__.columns}
@@ -21,4 +31,3 @@ class ModelMixin:
 
 class Model(ModelMixin, db.Model):
     __abstract__ = True
-
