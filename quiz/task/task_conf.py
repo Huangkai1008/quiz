@@ -6,5 +6,6 @@ accept_content = ['json', 'msgpack', 'pickle']
 task_serializer = 'json'  # 任务序列化方式
 result_serializer = 'json'  # 结果序列化方式
 timezone = 'Asia/Shanghai'  # 时区
+enable_utc = False
 # 导入任务模块
 imports = ('email',)

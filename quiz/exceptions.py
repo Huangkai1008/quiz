@@ -19,6 +19,21 @@ class QuizException(Exception):
             yield (k, getattr(self, k))
 
 
+class AuthException(Exception):
+    """
+    权限异常
+    """
+    status_code = 401
+
+    def __init__(self, message):
+        super(AuthException, self).__init__(message)
+        self.message = message
+
+    def __iter__(self):
+        for k in ['message', 'status_code']:
+            yield (k, getattr(self, k))
+
+
 class NotFoundException(Exception):
     """
     Not Found异常

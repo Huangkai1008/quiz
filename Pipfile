@@ -17,6 +17,7 @@ jsonschema = {extras = ["format"],version = "==3.0.1"}
 celery = {extras = ["auth", "eventlet", "librabbitmq", "msgpack", "redis"],version = "==4.3.0"}
 Flask-Mail = "==0.9.1"
 gevent = "==1.4.0"
+flask-httpauth = "==3.3.0"
 
 [requires]
 python_version = "3.7"

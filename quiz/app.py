@@ -93,8 +93,11 @@ def configure_errors(app):
     @app.errorhandler(Exception)
     def exception_handle(error):
         current_app.logger.warning(traceback.format_exc())
-        from quiz.exceptions import QuizException, ServerException
+        from quiz.exceptions import QuizException, ServerException, AuthException
         if isinstance(error, QuizException):
+            response = jsonify(dict(error))
+            response.status_code = error.status_code
+        elif isinstance(error, AuthException):
             response = jsonify(dict(error))
             response.status_code = error.status_code
         elif isinstance(error, HTTPException):

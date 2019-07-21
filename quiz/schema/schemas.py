@@ -11,3 +11,12 @@ class UserSchemas(Enum):
             'email': {'type': 'string', 'format': 'email'}
         }
     )
+
+    LOGIN_SCHEMA = dict(
+        type='object',
+        required=['username', 'password'],
+        properties={
+            'username': {'type': 'string'},
+            'password': {'type': 'string'}
+        }
+    )

@@ -2,7 +2,7 @@ import datetime as dt
 
 import jwt
 from flask import current_app
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from quiz.model.base import Model
 from quiz.extensions import db
@@ -32,12 +32,16 @@ class User(Model):
     def set_password(self, password):
         self.password = generate_password_hash(password)
 
+    def check_password(self, password):
+        """验证密码与保存的hash值是否匹配"""
+        return check_password_hash(self.password, password)
+
     def generate_confirm_jwt(self):
         """生成确认账户的Jwt"""
         now = dt.datetime.utcnow()
 
         payload = dict(
-            confirm=self.id,
+            user_id=self.id,
             exp=now + dt.timedelta(seconds=60 * 60),
             iat=now,
             aud='quiz'
@@ -47,3 +51,59 @@ class User(Model):
                            current_app.config['SECRET_KEY'],
                            'HS256').decode('utf-8')
         return token
+
+    def verify_confirm_jwt(self, token):
+        """验证确认账户的JWT"""
+        try:
+            payload = jwt.decode(
+                token,
+                current_app.config['SECRET_KEY'],
+                algorithms=['HS256'],
+                audience='quiz'
+            )
+        except (jwt.exceptions.ExpiredSignatureError,
+                jwt.exceptions.InvalidSignatureError,
+                jwt.exceptions.InvalidAudienceError,
+                jwt.exceptions.DecodeError):
+            return False
+
+        if payload.get('user_id') != self.id:
+            return False
+        self.confirmed = True
+        self.confirm_time = dt.datetime.now()
+        self.update()
+        return True
+
+    def get_jwt(self):
+        """用户登录后, 发放有效的JWT作为JWT过期时间内的登录验证"""
+        now = dt.datetime.utcnow()
+        payload = dict(
+            user_id=self.id,
+            confirmed=self.confirmed,
+            username=self.username,
+            exp=now + dt.timedelta(seconds=60 * 60),
+            iat=now,
+            aud='quiz'
+        )
+
+        token = jwt.encode(payload,
+                           current_app.config['SECRET_KEY'],
+                           'HS256').decode('utf-8')
+        return token
+
+    @staticmethod
+    def verify_jwt(token):
+        """验证token的有效性"""
+        try:
+            payload = jwt.decode(
+                token,
+                current_app.config['SECRET_KEY'],
+                algorithms=['HS256'],
+                audience='quiz'
+            )
+        except (jwt.exceptions.ExpiredSignatureError,
+                jwt.exceptions.InvalidSignatureError,
+                jwt.exceptions.InvalidAudienceError,
+                jwt.exceptions.DecodeError):
+            return None
+        return User.query.get(payload.get('user_id'))
