@@ -24,8 +24,8 @@ class UserResource(metaclass=utils.Singleton):
 
         user = user_api.user_create(username=username, email=email, password=password)
 
-        jwt = utils.Jwt(current_app.config['SECRET_KEY'])
-        token = jwt.generate_confirm_jwt(user.id)
+        token = user.generate_confirm_jwt()
+
         send_async_reg_email.delay('[Quiz] Confirm Your Account',
                                    current_app.config['MAIL_DEFAULT_SENDER'],
                                    [email],

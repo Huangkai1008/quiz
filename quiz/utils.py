@@ -3,7 +3,6 @@ import decimal
 import json
 from collections.abc import Iterator
 
-import jwt
 from quiz.model.base import ModelMixin
 
 
@@ -32,26 +31,3 @@ class Singleton(type):
         if cls not in cls._instances:
             cls._instances[cls] = super(Singleton, cls).__call__(*args, **kwargs)
         return cls._instances[cls]
-
-
-class Jwt:
-    """
-    jwt 工具类
-    """
-
-    def __init__(self, secret_key):
-        self._secret_key = secret_key
-
-    def generate_confirm_jwt(self, user_id):
-        """生成确认账户的Jwt"""
-        now = dt.datetime.utcnow()
-
-        payload = dict(
-            confirm=user_id,
-            exp=now + dt.timedelta(seconds=60 * 60),
-            iat=now,
-            aud='quiz'
-        )
-
-        token = jwt.encode(payload, self._secret_key, 'HS256').decode('utf-8')
-        return token

@@ -42,6 +42,8 @@ def configure_sentry():
 def configure_app(app):
     """配置app"""
     config_from_object(app)
+    # 不检查路由中最后是否有斜杠/
+    app.url_map.strict_slashes = False
 
 
 def configure_blueprints(app):
