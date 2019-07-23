@@ -66,7 +66,6 @@ def configure_logging(app):
     logger = logging.getLogger()
 
     stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.INFO)
 
     path = Path(app.config['LOG_PATH'])
     if not path.exists():
@@ -75,10 +74,10 @@ def configure_logging(app):
     file_handler = RotatingFileHandler(log_name, maxBytes=5 * 1024 * 1024, backupCount=30)
     formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
     file_handler.setFormatter(formatter)
-    file_handler.setLevel(logging.INFO)
 
     logger.addHandler(stream_handler)
     logger.addHandler(file_handler)
+    logger.setLevel(logging.INFO)
 
 
 def configure_errors(app):
