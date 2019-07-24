@@ -33,9 +33,9 @@ class Schema:
         for error in errors:
             raise ValidateException(error.message)
 
-        self.validate_extra()
+        self.validate_field()
 
-    def validate_extra(self):
+    def validate_field(self):
         """验证其他字段"""
         for field in self.fields:
             validate_field = getattr(self, f'validate_{field}', None)

@@ -12,6 +12,15 @@ def get_questions(page, size):
 
     query = utils.and_pagination(query, page, size)
 
-    return query, query.count()
+    return query.all(), query.count()
 
 
+def create_question(**attrs):
+    """
+    创建问题
+    :param attrs:
+    :return:
+    """
+    question = Question(**attrs)
+    question.create()
+    return question

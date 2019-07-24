@@ -12,7 +12,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 
 from quiz.tools import QuizFlask
 from quiz.config import config_from_object
-from quiz.api import index, user
+from quiz.api import index, user, question
 from quiz.extensions import cors, db, migrate, mail
 
 
@@ -50,6 +50,7 @@ def configure_blueprints(app):
     """配置蓝图"""
     app.register_blueprint(index.bp)
     app.register_blueprint(user.bp)
+    app.register_blueprint(question.bp)
 
 
 def configure_extensions(app):

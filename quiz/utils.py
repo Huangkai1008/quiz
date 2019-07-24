@@ -1,6 +1,7 @@
 import datetime as dt
 import decimal
 import json
+import enum
 from collections.abc import Iterator
 
 from quiz.model.base import ModelMixin
@@ -18,6 +19,8 @@ class ExtendedEncoder(json.JSONEncoder):
             return list(o)
         elif isinstance(o, ModelMixin):
             return dict(o)
+        elif isinstance(o, enum.Enum):
+            return o.value
         return json.JSONEncoder.default(self, o)
 
 
