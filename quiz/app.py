@@ -7,8 +7,8 @@ from pathlib import Path
 from logging.handlers import RotatingFileHandler
 
 from flask import jsonify, current_app
-from sentry_sdk.integrations.flask import FlaskIntegration
 from werkzeug.exceptions import HTTPException
+from sentry_sdk.integrations.flask import FlaskIntegration
 
 from quiz.tools import QuizFlask
 from quiz.config import config_from_object
