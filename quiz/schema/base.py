@@ -13,6 +13,9 @@ class Schema:
         """
         self.instance = instance
 
+    def __getitem__(self, item):
+        return self.instance[item]
+
     @property
     def schema(self):
         return self._schema

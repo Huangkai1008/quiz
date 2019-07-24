@@ -15,13 +15,11 @@ def register():
     用户注册
     :return:
     """
-    reg = request.json
-
-    reg_schema = RegisterSchema(reg)
+    reg_schema = RegisterSchema(request.json)
     reg_schema.validate()
-    user = user_resource.user_register(username=reg['username'],
-                                       email=reg['email'],
-                                       password=reg['password'])
+    user = user_resource.user_register(username=reg_schema['username'],
+                                       email=reg_schema['email'],
+                                       password=reg_schema['password'])
     return dict(user)
 
 
@@ -56,15 +54,14 @@ def resend_confirm():
 @bp.route('/tokens', methods=['POST'])
 def get_token():
     """获取token, 前端获取到刷新后的token放到请求头中就可以不需要再登录"""
-    login = request.json
-    login_schema = LoginSchema(login)
+    login_schema = LoginSchema(request.json)
     login_schema.validate()
 
-    user = user_api.get_user(username=login['username'])
+    user = user_api.get_user(username=login_schema['username'])
     if not user.confirmed:
         raise ValidateException('账户尚未验证, 请检查邮箱验证账户')
 
-    if user.check_password(login['password']):
+    if user.check_password(login_schema['password']):
         token = user.get_jwt()
         return dict(token=token)
     else:
