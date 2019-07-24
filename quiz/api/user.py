@@ -60,7 +60,7 @@ def get_token():
     login_schema = LoginSchema(login)
     login_schema.validate()
 
-    user = user_api.user_first(username=login['username'])
+    user = user_api.get_user(username=login['username'])
     if not user.confirmed:
         raise ValidateException('账户尚未验证, 请检查邮箱验证账户')
 

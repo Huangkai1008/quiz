@@ -9,13 +9,13 @@ def user_register(username, email, password):
     """用户注册"""
 
     # 验证用户名和邮箱的唯一性
-    if user_api.user_first(username=username):
+    if user_api.get_user(username=username):
         raise ValidateException('Please use a different username')
 
-    if user_api.user_first(email=email):
+    if user_api.get_user(email=email):
         raise ValidateException('Please use a different email')
 
-    user = user_api.user_create(username=username, email=email, password=password)
+    user = user_api.create_user(username=username, email=email, password=password)
 
     token = user.generate_confirm_jwt()
 
@@ -26,7 +26,7 @@ def user_register(username, email, password):
 
 def resend_confirm_email(email):
     """重新发送注册邮件"""
-    user = user_api.user_first(email=email)
+    user = user_api.get_user(email=email)
     if not user:
         raise ValidateException('邮箱不存在或者尚未注册')
 

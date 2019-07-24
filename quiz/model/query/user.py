@@ -1,7 +1,7 @@
 from quiz.model.user import User
 
 
-def user_first(**params):
+def get_user(**params):
     filters = dict()
 
     if params.get('username'):
@@ -13,7 +13,7 @@ def user_first(**params):
     return query.first()
 
 
-def user_create(**attrs):
+def create_user(**attrs):
     """用户创建"""
     user = User(**attrs)
     user.create()
