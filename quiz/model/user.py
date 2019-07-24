@@ -17,7 +17,7 @@ class User(Model):
     _hide_columns = {'password'}
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(128), unique=True, nullable=True, comment='用户名')
+    username = db.Column(db.String(128), unique=True, nullable=False, comment='用户名')
     email = db.Column(db.String(128), unique=True, nullable=False, comment='邮箱')
     password = db.Column(db.String(128), nullable=False, comment='是否激活')
     confirmed = db.Column(db.Boolean, nullable=False, default=False, comment='是否激活')
