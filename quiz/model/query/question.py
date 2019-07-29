@@ -54,3 +54,13 @@ def get_answers(page, size, **params):
     query = utils.and_pagination(query, page, size)
 
     return query.all(), query.count()
+
+
+def create_answer(**attrs):
+    """
+    作出回答
+    :param attrs:
+    :return:
+    """
+    answer = Answer(**attrs)
+    answer.create()

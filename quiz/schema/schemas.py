@@ -34,3 +34,12 @@ class QuestionSchemas(Enum):
         },
         additionalProperties=False
     )
+
+    ANSWER_SCHEMA = dict(
+        type='object',
+        required=['content'],
+        properties={
+            'content': {'type': 'string'}
+        },
+        additionalProperties=False
+    )
