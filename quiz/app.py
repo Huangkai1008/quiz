@@ -13,7 +13,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 from quiz.tools import QuizFlask
 from quiz.config import config_from_object
 from quiz.api import index, user, question
-from quiz.extensions import cors, db, migrate, mail
+from quiz.extensions import cors, db, migrate, mail, redis_cli
 
 
 def create_app():
@@ -60,6 +60,7 @@ def configure_extensions(app):
     from quiz import model
     migrate.init_app(app, db=db, model=model)
     mail.init_app(app)
+    redis_cli.init_app(app)
 
 
 def configure_logging(app):
