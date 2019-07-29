@@ -1,4 +1,4 @@
-from quiz.model.question import Question, Answer
+from quiz.model.question import Question, Answer, AnswerVote
 from quiz.model.query import utils
 
 
@@ -64,3 +64,20 @@ def create_answer(**attrs):
     """
     answer = Answer(**attrs)
     answer.create()
+
+
+def answer_vote_get(**params):
+    """
+    回答点赞信息获取
+    :param params:
+    :return:
+    """
+    filters = dict()
+
+    if params.get('user_id'):
+        filters['user_id'] = params['user_id']
+    if params.get('answer_id'):
+        filters['answer_id'] = params['answer_id']
+
+    query = AnswerVote.query.filter_by(**filters)
+    return query.first()

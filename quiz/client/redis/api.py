@@ -32,6 +32,16 @@ def answer_vote_get(user_id, answer_id):
     )
 
 
+def answer_vote_scan():
+    """
+    获得所有点赞状态
+    :return:
+    """
+    return redis_cli.r.hscan_iter(
+        QuestionRedisKey.ANSWER_VOTE.value
+    )
+
+
 def answer_vote_count_incr(question_id, answer_id, increment):
     """
     答案点赞数增加/减少
