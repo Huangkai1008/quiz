@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "39b6511842b202cab4c31802a9ce6da0263ab7c65a9a50538050f3150b790c50"
+            "sha256": "d80ee1ed01235f3eaa9890587694def154734d0240a3eb6513446a87a148a1c4"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -402,9 +402,9 @@
         },
         "pyrsistent": {
             "hashes": [
-                "sha256:50cffebc87ca91b9d4be2dcc2e479272bcb466b5a0487b6c271f7ddea6917e14"
+                "sha256:34b47fa169d6006b32e99d4b3c4031f155e6e68ebcc107d6454852e8e0ee6533"
             ],
-            "version": "==0.15.3"
+            "version": "==0.15.4"
         },
         "python-dateutil": {
             "hashes": [
@@ -438,10 +438,10 @@
         },
         "redis": {
             "hashes": [
-                "sha256:6946b5dca72e86103edc8033019cc3814c031232d339d5f4533b02ea85685175",
-                "sha256:8ca418d2ddca1b1a850afa1680a7d2fd1f3322739271de4b704e0d4668449273"
+                "sha256:22b8b0041989d9002c04907466bc737cb6c3f6a77196315cf29205e13220836b",
+                "sha256:73ced19326cb85f69eb0724005c3fc24eaf7a5b6c3b387bfb13e900e808078d0"
             ],
-            "version": "==3.2.1"
+            "version": "==3.3.0"
         },
         "rfc3987": {
             "hashes": [
