@@ -43,6 +43,6 @@ class AnswerVote(Model):
         PrimaryKeyConstraint('answer_id', 'user_id'),
     )
 
-    answer_id = db.Column(db.Integer, index=True, comment='回答id')
     user_id = db.Column(db.Integer, index=True, comment='赞同/反对此回答的用户id')
+    answer_id = db.Column(db.Integer, index=True, comment='回答id')
     agree = db.Column(db.Boolean, index=True, comment='赞同/反对')
