@@ -43,3 +43,12 @@ class QuestionSchemas(Enum):
         },
         additionalProperties=False
     )
+
+    VOTE_SCHEMA = dict(
+        type='object',
+        required=['agree'],
+        properties={
+            'agree': {'type': 'number', 'enum': [1, 0, -1]}
+        },
+        additionalProperties=False
+    )

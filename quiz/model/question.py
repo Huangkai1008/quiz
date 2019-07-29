@@ -46,5 +46,3 @@ class AnswerVote(Model):
     answer_id = db.Column(db.Integer, index=True, comment='回答id')
     user_id = db.Column(db.Integer, index=True, comment='赞同/反对此回答的用户id')
     agree = db.Column(db.Boolean, index=True, comment='赞同/反对')
-    create_time = db.Column(db.DateTime, default=dt.datetime.now(), comment='创建时间/回答时间')
-    update_time = db.Column(db.DateTime, onupdate=dt.datetime.now(), comment='更新回答时间')

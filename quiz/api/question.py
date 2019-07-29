@@ -1,6 +1,7 @@
 from flask import Blueprint, request, g
 
 from quiz.resource.auth import token_auth
+from quiz.resource import question as question_resource
 from quiz.form.question import QuestionForm
 from quiz.schema.question import QuestionSchema, AnswerSchema
 from quiz.model.query import question as question_api
@@ -63,3 +64,8 @@ def answer_question(question_id):
     return dict(answer)
 
 
+@bp.route('/<int:question_id>/answers/<int:answer_id>/vote', methods=['POST'])
+@token_auth.login_required
+def vote_answer(question_id, answer_id):
+    """对回答表明态度"""
+    question_resource.vote_answer(question_id, answer_id)

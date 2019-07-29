@@ -8,3 +8,7 @@ class QuestionSchema(Schema):
 
 class AnswerSchema(Schema):
     _schema = QuestionSchemas.ANSWER_SCHEMA.value
+
+
+class VoteSchema(Schema):
+    _schema = QuestionSchemas.VOTE_SCHEMA.value
