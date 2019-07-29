@@ -95,18 +95,12 @@ def configure_errors(app):
     def exception_handle(error):
         current_app.logger.warning(traceback.format_exc())
         from quiz.exceptions import QuizException, ServerException, AuthException, NotFoundException
-        if isinstance(error, QuizException):
-            response = jsonify(dict(error))
-            response.status_code = error.status_code
-        elif isinstance(error, AuthException):
+        if isinstance(error, (QuizException, AuthException, NotFoundException)):
             response = jsonify(dict(error))
             response.status_code = error.status_code
         elif isinstance(error, HTTPException):
             response = jsonify(dict(message=error.description))
             response.status_code = error.code
-        elif isinstance(error, NotFoundException):
-            response = jsonify(dict(error))
-            response.status_code = error.status_code
         else:
             current_app.logger.error('Server Error !')
             illegal = ServerException("服务器出现异常")
