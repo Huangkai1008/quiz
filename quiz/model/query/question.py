@@ -21,8 +21,7 @@ def get_question(question_id):
     :param question_id:
     :return:
     """
-    query = Question.query.get(question_id)
-    return query.first()
+    return Question.query.get(question_id)
 
 
 def create_question(**attrs):
@@ -64,6 +63,7 @@ def create_answer(**attrs):
     """
     answer = Answer(**attrs)
     answer.create()
+    return answer
 
 
 def answer_vote_get(**params):
