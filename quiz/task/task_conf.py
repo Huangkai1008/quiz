@@ -8,5 +8,6 @@ result_serializer = 'json'  # 结果序列化方式
 timezone = 'Asia/Shanghai'  # 时区
 enable_utc = False
 # 导入任务模块
-imports = ('email',
-           'persist',)
+imports = ('quiz.task.email',
+           'quiz.task.persist',
+           )

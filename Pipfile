@@ -19,6 +19,7 @@ Flask-Mail = "==0.9.1"
 gevent = "==1.4.0"
 flask-httpauth = "==3.3.0"
 wtforms = "==2.2.1"
+flower = "==0.9.3"
 
 [requires]
 python_version = "3.7"
