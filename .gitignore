@@ -132,3 +132,5 @@ dmypy.json
 # migration
 migrations
 
+# celery
+quiz/task/beat_schedule/*

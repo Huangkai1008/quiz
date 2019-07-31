@@ -11,3 +11,5 @@ enable_utc = False
 imports = ('quiz.task.email',
            'quiz.task.persist',
            )
+# beat-schedule文件位置
+beat_schedule_filename = 'quiz/task/beat_schedule/beat-schedule'
