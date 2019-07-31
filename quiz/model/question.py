@@ -31,7 +31,6 @@ class Answer(Model):
     user_id = db.Column(db.Integer, index=True, comment='回答用户id')
     question_id = db.Column(db.BigInteger, index=True, comment='问题id')
     content = db.Column(db.String(2048), nullable=False, comment='回答内容')
-    voted_count = db.Column(db.Integer, comment='赞的数量', default=0)
     create_time = db.Column(db.DateTime, default=dt.datetime.now(), comment='创建时间/回答时间')
     update_time = db.Column(db.DateTime, onupdate=dt.datetime.now(), comment='更新回答时间')
 

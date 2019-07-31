@@ -22,6 +22,8 @@ pipenv install
 
 ```bash
 flask run
+celery -A celery_worker.celery worker -l info -P gevent   # Start the celerty worker
+flower -A celery_worker.celery  -l info                   # Start the flower
 ```
 
 ## License

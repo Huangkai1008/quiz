@@ -1,5 +1,6 @@
 from quiz.model.question import Question, Answer, AnswerVote
 from quiz.model.query import utils
+from quiz.extensions import db
 
 
 def get_questions(page, size):
@@ -81,3 +82,36 @@ def answer_vote_get(**params):
 
     query = AnswerVote.query.filter_by(**filters)
     return query.first()
+
+
+def answer_vote_update(**attrs):
+    """
+    回答点赞信息修改
+    :return:
+    """
+    vote = AnswerVote(**attrs)
+    vote.update()
+    return vote
+
+
+def answer_vote_bulk_update(votes: list):
+    """
+    回答点赞信息批量修改
+    :param votes:
+    :return:
+    """
+    for vote in votes:
+        entity = AnswerVote(**vote)
+        entity.update(commit=False)
+    db.session.commit()
+
+
+def answer_vote_delete(user_id, answer_id):
+    """
+    取消用户对于某个回答的点赞或者点踩
+    :param user_id:
+    :param answer_id:
+    :return:
+    """
+    vote = AnswerVote.query.filter_by(user_id=user_id, answer_id=answer_id)
+    vote.delete()

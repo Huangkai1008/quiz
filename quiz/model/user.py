@@ -81,7 +81,7 @@ class User(Model):
             user_id=self.id,
             confirmed=self.confirmed,
             username=self.username,
-            exp=now + dt.timedelta(seconds=60 * 60),
+            exp=now + dt.timedelta(seconds=3 * 60 * 60),
             iat=now,
             aud='quiz'
         )

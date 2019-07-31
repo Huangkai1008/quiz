@@ -41,7 +41,7 @@ def confirm(token):
         raise ValidateException('The token is invalid')
 
 
-@bp.route('/resend-confirm', methods=['GET'])
+@bp.route('/resend-confirm', methods=['POST'])
 def resend_confirm():
     """重新发送验证邮件"""
     reg = request.json

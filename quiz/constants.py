@@ -23,4 +23,4 @@ class QuestionRedisKey(Enum):
     """
     问题模块redis键
     """
-    ANSWER_VOTE = 'quiz:question:answer:vote'    # 点赞状态
+    ANSWER_VOTE = 'quiz:answer:vote'    # 点赞状态

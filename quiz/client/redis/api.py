@@ -8,7 +8,7 @@ def answer_vote_update(user_id, answer_id, agree):
     :param answer_id  问题id
     :param user_id  用户id
     :param agree 赞同状态
-    key   -->  quiz:question:answer:vote(hash)
+    key   -->  quiz:answer:vote(hash)
     value -->  {$answer_id::$user_id : $agree, ...}
     :return:
     """
@@ -54,5 +54,5 @@ def answer_vote_count_incr(question_id, answer_id, increment):
     return redis_cli.r.zincrby(
         f'quiz:question:{question_id}:answer:vote:count',
         increment,
-        f'answer:{answer_id}'
+        answer_id
     )

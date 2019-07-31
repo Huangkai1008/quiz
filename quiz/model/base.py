@@ -17,6 +17,11 @@ class ModelMixin:
         if commit:
             db.session.commit()
 
+    def delete(self, commit=True):
+        db.session.delete(self)
+        if commit:
+            db.session.commit()
+
     @property
     def columns(self):
         all_columns = {c.name for c in self.__table__.columns}
