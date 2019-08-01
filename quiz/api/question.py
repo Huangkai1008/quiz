@@ -2,7 +2,7 @@ from flask import Blueprint, request, g
 
 from quiz.resource.auth import token_auth
 from quiz.resource import question as question_resource
-from quiz.form.question import QuestionForm
+from quiz.form.question import QuestionForm, AnswerForm
 from quiz.schema.question import QuestionSchema, AnswerSchema
 from quiz.model.query import question as question_api
 from quiz.exceptions import NotFoundException
@@ -40,16 +40,27 @@ def question_post():
 @token_auth.login_required
 def question_get(question_id):
     """
-    获取问题详情  包括回答列表
+    获取问题详情
     :return:
     """
-    params = QuestionForm(**request.args.to_dict()).data
-
     question = question_api.get_question(question_id)
     if not question:
         raise NotFoundException('你似乎来到了没有知识存在的荒原')
+    return dict(question)
+
+
+@bp.route('/<int:question_id>/answers', methods=['GET'])
+@token_auth.login_required
+def question_answers(question_id):
+    """
+    获取问题答案
+    :param question_id:
+    :return:
+    """
+    params = AnswerForm(**request.args.to_dict()).data
+
     answers, count = question_api.get_answers(params['page'], params['size'], question_id=question_id)
-    return dict(question=question, answers=answers, answer_count=count)
+    return dict(answers=answers, count=count)
 
 
 @bp.route('/<int:question_id>/answers', methods=['POST'])

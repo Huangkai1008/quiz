@@ -15,8 +15,8 @@ class AnswerVote(Enum):
     回答赞同的状态
     """
     agree = 1
-    disagree = -1
-    cancel = 0
+    disagree = 0
+    cancel = -1
 
 
 class QuestionRedisKey(Enum):

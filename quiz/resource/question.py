@@ -1,3 +1,5 @@
+import math
+
 from flask import request, g
 
 from quiz.schema.question import VoteSchema
@@ -33,3 +35,22 @@ def _get_past_agree(user_id, answer_id):
         vote = question_api.answer_vote_get(user_id=user_id, answer_id=answer_id)
         past_agree = vote.agree if vote else None
     return past_agree and int(past_agree)
+
+
+def _confidence(up, down):
+    """
+    获取威尔逊得分区间 (Wilson score interval)
+    http://en.wikipedia.org/wiki/Binomial_proportion_confidence_interval#Wilson_score_interval
+    :param up: 点赞的人数
+    :param down: 点踩的人数
+    :return:
+    """
+    n = up + down  # 样本人数
+    z = 1.6
+    phat = float(up) / n
+    return (phat + z ** 2 / (2 * n) - z * math.sqrt((phat * (1 - phat) + z * z / (4 * n)) / n)) / (1 + z ** 2 / n)
+
+
+def confidence(up, down):
+    score = 0 if up + down == 0 else _confidence(up, down)
+    return score
