@@ -1,5 +1,6 @@
 from quiz.task import celery
 from quiz.client.redis import api as redis_api
+from quiz.constants import AnswerVote
 from quiz.model.query import question as question_api
 
 
@@ -19,7 +20,7 @@ def persist_answer_votes():
 
         answer_id, user_id = int(seqs[0]), int(seqs[-1])
 
-        if agree:
+        if int(agree) in {AnswerVote.agree.value, AnswerVote.disagree.value}:
             votes.append(dict(
                 user_id=user_id,
                 answer_id=answer_id,
