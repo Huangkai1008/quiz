@@ -42,6 +42,20 @@ def answer_vote_scan():
     )
 
 
+def answer_vote_count_add(question_id, answer_id, score):
+    """
+    答案点赞数条目添加
+    :param question_id:
+    :param answer_id:
+    :param score:
+    :return:
+    """
+    redis_cli.r.zadd(
+        f'quiz:question:{question_id}:answer:vote:count',
+        mapping={answer_id: score}
+    )
+
+
 def answer_vote_count_incr(question_id, answer_id, increment):
     """
     答案点赞数增加/减少
@@ -55,4 +69,19 @@ def answer_vote_count_incr(question_id, answer_id, increment):
         f'quiz:question:{question_id}:answer:vote:count',
         increment,
         answer_id
+    )
+
+
+def answer_vote_count_range(question_id, start=0, stop=-1):
+    """
+    答案点赞数排行 Desc
+    :param question_id: 问题id
+    :param start: 开始
+    :param stop: 结束位置
+    :return:
+    """
+    return redis_cli.r.zrevrange(
+        f'quiz:question:{question_id}:answer:vote:count',
+        start,
+        stop
     )

@@ -59,8 +59,10 @@ def question_answers(question_id):
     """
     params = AnswerForm(**request.args.to_dict()).data
 
-    answers, count = question_api.get_answers(params['page'], params['size'], question_id=question_id)
-    return dict(answers=answers, count=count)
+    answers = question_resource.get_answers(question_id, params['sort_choice'],
+                                            params['page'],
+                                            params['size'])
+    return dict(answers=answers)
 
 
 @bp.route('/<int:question_id>/answers', methods=['POST'])

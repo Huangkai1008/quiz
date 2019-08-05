@@ -1,3 +1,5 @@
+from sqlalchemy import func, or_
+
 from quiz.model.question import Question, Answer, AnswerVote
 from quiz.model.query import utils
 from quiz.extensions import db
@@ -36,26 +38,6 @@ def create_question(**attrs):
     return question
 
 
-def get_answers(page, size, **params):
-    """
-    获取回答列表
-    :param page:
-    :param size:
-    :param params:
-    :return:
-    """
-    conditions = list()
-
-    query = Answer.query
-
-    if params.get('question_id'):
-        conditions.append(Answer.question_id == params['question_id'])
-
-    query = utils.and_pagination(query, page, size)
-
-    return query.all(), query.count()
-
-
 def create_answer(**attrs):
     """
     作出回答
@@ -65,6 +47,64 @@ def create_answer(**attrs):
     answer = Answer(**attrs)
     answer.create()
     return answer
+
+
+def get_answers(question_id, **params):
+    """获得答案列表"""
+    conditions = list()
+    sort_conditions = list()
+
+    query = Answer.query
+
+    if 'ids' in params:
+        conditions.append(Answer.question_id.in_(params['ids']))
+    if params.get('create_time_sort') is not None:
+        sort_condition = Answer.create_time.asc() if params['create_time_sort'] else Answer.create_time.desc()
+        sort_conditions.append(sort_condition)
+    if params.get('id_field_sort'):
+        sort_condition = func.field(Answer.id, *params['ids'])
+        sort_conditions.append(sort_condition)
+
+    conditions.append(Answer.question_id == question_id)
+
+    query = query.filter(*conditions).order_by(*sort_conditions)
+
+    if params.get('need_paginate'):
+        query = utils.and_pagination(query, params['page'], params['size'])
+
+    return query.all()
+
+
+def get_answers_by_star_prior(question_id, agree_type, **params):
+    """
+    答案列表-赞数优先
+    :return:
+    """
+    query = Answer.query \
+        .outerjoin(AnswerVote, Answer.id == AnswerVote.answer_id) \
+        .filter(AnswerVote.agree == agree_type,
+                Answer.question_id == question_id) \
+        .add_columns(func.count(AnswerVote.answer_id).label('vote_up_count')) \
+        .order_by('vote_up_count')
+
+    if params.get('size') and params.get('page'):
+        query = utils.and_pagination(query, params['page'], params['size'])
+
+    return query.all()
+
+
+def get_answers_by_intelligence(question_id):
+    """
+    答案列表-智能排序
+    :param question_id:
+    :return:
+    """
+    query = Answer.query \
+        .outerjoin(AnswerVote, Answer.id == AnswerVote.answer_id) \
+        .filter(Answer.question_id == question_id) \
+        .add_columns(func.count(or_(AnswerVote.agree == 1, None)).label('vote_up_count'),
+                     func.count(or_(AnswerVote.agree == 0, None)).label('vote_down_count'))
+    return query.all()
 
 
 def answer_vote_get(**params):
