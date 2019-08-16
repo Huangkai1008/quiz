@@ -12,7 +12,7 @@ from sentry_sdk.integrations.flask import FlaskIntegration
 
 from quiz.tools import QuizFlask
 from quiz.config import config_from_object
-from quiz.api import index, user, question
+from quiz.api import index, user, question, topic
 from quiz.extensions import cors, db, migrate, mail, redis_cli
 
 
@@ -51,6 +51,7 @@ def configure_blueprints(app):
     app.register_blueprint(index.bp)
     app.register_blueprint(user.bp)
     app.register_blueprint(question.bp)
+    app.register_blueprint(topic.bp)
 
 
 def configure_extensions(app):

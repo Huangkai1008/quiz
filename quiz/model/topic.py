@@ -8,6 +8,17 @@ from quiz.model.base import Model
 __all__ = ['Article', 'Topic', 'ArticleVote']
 
 
+class Topic(Model):
+    """
+    主题/专题
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, index=True, comment='文章作者id')
+    topic_name = db.Column(db.String(54), comment='专题名')
+    topic_desc = db.Column(db.String(128), comment='专题描述')
+    create_time = db.Column(db.DateTime, default=dt.datetime.now(), comment='创建时间')
+
+
 class Article(Model):
     """
     文章
@@ -18,17 +29,6 @@ class Article(Model):
     content = db.Column(db.String(2048), comment='文章内容')
     create_time = db.Column(db.DateTime, default=dt.datetime.now(), comment='创建时间')
     topic_id = db.Column(db.Integer, index=True, comment='主题/专题id')
-
-
-class Topic(Model):
-    """
-    主题/专题
-    """
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, index=True, comment='文章作者id')
-    topic_name = db.Column(db.String(54), comment='专题名')
-    topic_desc = db.Column(db.String(128), comment='专题描述')
-    create_time = db.Column(db.DateTime, default=dt.datetime.now(), comment='创建时间')
 
 
 class ArticleVote(Model):
