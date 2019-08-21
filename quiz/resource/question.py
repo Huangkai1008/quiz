@@ -89,3 +89,12 @@ def _confidence(up, down):
 def confidence(up, down):
     score = 0 if up + down == 0 else _confidence(up, down)
     return score
+
+
+def get_answer_comments(answer_id):
+    """
+    获取回答下的评论列表
+    :param answer_id:
+    :return:
+    """
+    pass

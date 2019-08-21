@@ -7,7 +7,7 @@ from quiz.extensions import db
 from quiz.model.base import Model
 from quiz.constants import QuestionStatus
 
-__all__ = ['Question', 'Answer', 'AnswerVote', 'Comment']
+__all__ = ['Question', 'Answer', 'AnswerVote', 'Comment', 'CommentVote']
 
 
 class Question(Model):
@@ -58,3 +58,14 @@ class Comment(Model):
     content = db.Column(db.String(1024), nullable=False, comment='评论内容')
     create_time = db.Column(db.DateTime, default=dt.datetime.now(), comment='评论时间')
 
+
+class CommentVote(Model):
+    """
+    评论点赞, 只有点赞状态
+    """
+    __table_args__ = (
+        PrimaryKeyConstraint('comment_id', 'user_id'),
+    )
+
+    user_id = db.Column(db.Integer, index=True, comment='点赞此文章的用户id')
+    comment_id = db.Column(db.Integer, index=True, comment='评论id')

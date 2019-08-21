@@ -82,3 +82,10 @@ def answer_question(question_id):
 def vote_answer(question_id, answer_id):
     """对回答表明态度"""
     question_resource.vote_answer(question_id, answer_id)
+
+
+@bp.route('/<int:question_id>/answers/<int:answer_id>/comments', methods=['GET'])
+@token_auth.login_required
+def answer_comments_get(question_id, answer_id):
+    """获取回答下所有评论"""
+    pass
