@@ -7,7 +7,7 @@ from quiz.extensions import db
 from quiz.model.base import Model
 from quiz.constants import QuestionStatus
 
-__all__ = ['Question', 'Answer', 'AnswerVote']
+__all__ = ['Question', 'Answer', 'AnswerVote', 'Comment']
 
 
 class Question(Model):
@@ -46,3 +46,15 @@ class AnswerVote(Model):
     user_id = db.Column(db.Integer, index=True, comment='赞同/反对此回答的用户id')
     answer_id = db.Column(db.Integer, index=True, comment='回答id')
     agree = db.Column(db.Boolean, index=True, comment='赞同/反对')
+
+
+class Comment(Model):
+    """
+    回答评论
+    """
+    id = db.Column(db.BigInteger, primary_key=True)
+    user_id = db.Column(db.Integer, comment='评论用户id')
+    parent_id = db.Column(db.Integer, comment='父评论id')
+    content = db.Column(db.String(1024), nullable=False, comment='评论内容')
+    create_time = db.Column(db.DateTime, default=dt.datetime.now(), comment='评论时间')
+
