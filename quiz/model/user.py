@@ -61,10 +61,7 @@ class User(Model):
                 algorithms=['HS256'],
                 audience='quiz'
             )
-        except (jwt.exceptions.ExpiredSignatureError,
-                jwt.exceptions.InvalidSignatureError,
-                jwt.exceptions.InvalidAudienceError,
-                jwt.exceptions.DecodeError):
+        except jwt.PyJWTError:
             return False
 
         if payload.get('user_id') != self.id:
@@ -101,9 +98,6 @@ class User(Model):
                 algorithms=['HS256'],
                 audience='quiz'
             )
-        except (jwt.exceptions.ExpiredSignatureError,
-                jwt.exceptions.InvalidSignatureError,
-                jwt.exceptions.InvalidAudienceError,
-                jwt.exceptions.DecodeError):
+        except jwt.PyJWTError:
             return None
         return User.query.get(payload.get('user_id'))
