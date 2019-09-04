@@ -2,12 +2,13 @@ import datetime as dt
 
 import jwt
 from flask import current_app
+from sqlalchemy import PrimaryKeyConstraint
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from quiz.model.base import Model
 from quiz.extensions import db
 
-__all__ = ['User']
+__all__ = ['User', 'Follow']
 
 
 class User(Model):
@@ -101,3 +102,16 @@ class User(Model):
         except jwt.PyJWTError:
             return None
         return User.query.get(payload.get('user_id'))
+
+
+class Follow(Model):
+    """
+    关注
+    """
+    __table_args__ = (
+        PrimaryKeyConstraint('follower_id', 'followed_id'),
+    )
+
+    follower_id = db.Column(db.Integer, comment='关注用户id')
+    followed_id = db.Column(db.Integer, comment='被关注用户id')
+    follow_time = db.Column(db.DateTime, default=dt.datetime.now(), comment='关注时间')

@@ -1,4 +1,4 @@
-from flask import current_app
+from flask import current_app, g
 
 from quiz.task.email import send_async_reg_email
 from quiz.model.query import user as user_api
@@ -41,3 +41,23 @@ def _send_confirm_email(email, token):
                                [email],
                                token)
 
+
+def get_followed():
+    """获取用户关注的所有用户"""
+    follower_id = g.current_user.id
+    followed_ids = [follower.followed_id for follower in user_api.get_followed(follower_id)]
+    users = user_api.get_users(user_ids=followed_ids)
+    return users
+
+
+def follow_user(user_id):
+    """关注用户"""
+    follower = g.current_user
+    followed_person = user_api.get_user(user_id=user_id)
+    if follower == followed_person:
+        raise ValidateException('你不能关注自己')
+
+    if user_api.exist_follow(follower.id, user_id):
+        raise ValidateException('你已经关注了此用户')
+    else:
+        user_api.create_follow(follower.id, user_id)

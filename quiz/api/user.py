@@ -4,6 +4,7 @@ from quiz.model.user import User
 from quiz.model.query import user as user_api
 from quiz.schema.user import RegisterSchema, LoginSchema
 from quiz.resource import user as user_resource
+from quiz.resource.auth import token_auth
 from quiz.exceptions import ValidateException, AuthException
 
 bp = Blueprint('user', __name__, url_prefix='/users')
@@ -66,3 +67,20 @@ def get_token():
         return dict(token=token)
     else:
         raise AuthException('用户名和密码不匹配')
+
+
+@bp.route('/followed', methods=['GET'])
+@token_auth.login_required
+def followed_get():
+    """获取该用户下所有的用户"""
+    users = user_resource.get_followed()
+    return dict(users=users)
+
+
+@bp.route('/follow/<int:user_id>', methods=['PUT'])
+@token_auth.login_required
+def follow(user_id):
+    """开始关注新用户"""
+    user_resource.follow_user(user_id)
+    return dict()
+
