@@ -2,6 +2,66 @@ from quiz.extensions import redis_cli
 from quiz.constants import QuestionRedisKey
 
 
+def follow_add(follower_id, followed_id):
+    """
+    添加关注
+    :param follower_id: 关注者id
+    :param followed_id: 被关注者id
+    key --> quiz:user:$user_id:followed(set)  用户关注的
+            quiz:user:$user_id:followers(set) 用户的粉丝
+    value --> user_id  关注用户id/被关注用户id
+    :return:
+    """
+    redis_cli.pipe.sadd(
+        f'quiz:user:{follower_id}:followed', followed_id
+    )
+    redis_cli.pipe.sadd(
+        f'quiz:user:{followed_id}:followers', follower_id
+    )
+    redis_cli.pipe.execute()
+
+
+def follow_remove(follower_id, followed_id):
+    """
+    取消关注
+    :param follower_id:  关注者id
+    :param followed_id:  被关注者id
+    key --> quiz:user:$user_id:followed(set)  用户关注的
+            quiz:user:$user_id:followers(set) 用户的粉丝
+    value --> user_id  关注用户id/被关注用户id
+    :return:
+    """
+    redis_cli.pipe.srem(
+        f'quiz:user:{follower_id}:followed', followed_id
+    )
+    redis_cli.pipe.srem(
+        f'quiz:user:{followed_id}:followers', follower_id
+    )
+    redis_cli.pipe.execute()
+
+
+def followed_get(user_id):
+    """
+    获取用户的关注用户
+    :param user_id: 用户id
+    :return:
+    """
+    return redis_cli.r.smembers(
+        f'quiz:user:{user_id}:followed'
+    )
+
+
+def followers_get(user_id):
+    """
+    获取用户的粉丝用户
+    :param user_id:
+    :return:
+    """
+    return redis_cli.r.smembers(
+        f'quiz:user:{user_id}:followers'
+    )
+
+
 def answer_vote_update(user_id, answer_id, agree):
     """
     点赞状态改变

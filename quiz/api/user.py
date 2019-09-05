@@ -72,7 +72,7 @@ def get_token():
 @bp.route('/followed', methods=['GET'])
 @token_auth.login_required
 def followed_get():
-    """获取该用户下所有的用户"""
+    """获取该用户下所有的关注用户"""
     users = user_resource.get_followed()
     return dict(users=users)
 

@@ -45,6 +45,7 @@ def _send_confirm_email(email, token):
 def get_followed():
     """获取用户关注的所有用户"""
     follower_id = g.current_user.id
+
     followed_ids = [follower.followed_id for follower in user_api.get_followed(follower_id)]
     users = user_api.get_users(user_ids=followed_ids)
     return users
