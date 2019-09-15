@@ -28,4 +28,4 @@ flower -A celery_worker.celery  -l info                   # Start the flower
 ```
 
 ## License
-[MIT](https://choosealicense.com/lice:wqnses/mit/)
+[MIT](https://www.mit-license.org/)
