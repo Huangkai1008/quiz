@@ -4,7 +4,7 @@ from quiz.resource.auth import token_auth
 from quiz.resource import question as question_resource
 from quiz.form.question import QuestionForm, AnswerForm
 from quiz.schema.question import QuestionSchema, AnswerSchema
-from quiz.model.query import question as question_api
+from quiz.model.queries import question as question_api
 from quiz.exceptions import NotFoundException
 
 bp = Blueprint('question', __name__, url_prefix='/questions')

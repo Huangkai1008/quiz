@@ -1,7 +1,7 @@
 from flask import current_app, g
 
 from quiz.task.email import send_async_reg_email
-from quiz.model.query import user as user_api
+from quiz.model.queries import user as user_api
 from quiz.exceptions import ValidateException
 
 

@@ -1,7 +1,7 @@
 from quiz.task import celery
 from quiz.client.redis import api as redis_api
 from quiz.constants import AnswerVote
-from quiz.model.query import question as question_api
+from quiz.model.queries import question as question_api
 
 
 @celery.task

@@ -1,7 +1,7 @@
 from sqlalchemy import func, or_
 
 from quiz.model.question import Question, Answer, AnswerVote
-from quiz.model.query import utils
+from quiz.model.queries import utils
 from quiz.extensions import db
 
 

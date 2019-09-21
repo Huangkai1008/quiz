@@ -1,7 +1,7 @@
 from flask import Blueprint, request, g
 
 from quiz.model.user import User
-from quiz.model.query import user as user_api
+from quiz.model.queries import user as user_api
 from quiz.schema.user import RegisterSchema, LoginSchema
 from quiz.resource import user as user_resource
 from quiz.resource.auth import token_auth

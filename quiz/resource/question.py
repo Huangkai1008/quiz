@@ -6,7 +6,7 @@ from quiz import utils
 from quiz.schema.question import VoteSchema
 from quiz.constants import AnswerVote, AnswerSortChoice
 from quiz.client.redis import api as redis_api
-from quiz.model.query import question as question_api
+from quiz.model.queries import question as question_api
 
 
 def vote_answer(question_id, answer_id):
