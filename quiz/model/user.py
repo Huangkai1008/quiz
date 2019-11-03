@@ -15,6 +15,7 @@ class User(Model):
     """
     用户模块
     """
+
     _hide_columns = {'password'}
 
     id = db.Column(db.Integer, primary_key=True)
@@ -45,12 +46,12 @@ class User(Model):
             user_id=self.id,
             exp=now + dt.timedelta(seconds=60 * 60),
             iat=now,
-            aud='quiz'
+            aud='quiz',
         )
 
-        token = jwt.encode(payload,
-                           current_app.config['SECRET_KEY'],
-                           'HS256').decode('utf-8')
+        token = jwt.encode(payload, current_app.config['SECRET_KEY'], 'HS256').decode(
+            'utf-8'
+        )
         return token
 
     def verify_confirm_jwt(self, token):
@@ -60,7 +61,7 @@ class User(Model):
                 token,
                 current_app.config['SECRET_KEY'],
                 algorithms=['HS256'],
-                audience='quiz'
+                audience='quiz',
             )
         except jwt.PyJWTError:
             return False
@@ -81,12 +82,12 @@ class User(Model):
             username=self.username,
             exp=now + dt.timedelta(seconds=3 * 60 * 60),
             iat=now,
-            aud='quiz'
+            aud='quiz',
         )
 
-        token = jwt.encode(payload,
-                           current_app.config['SECRET_KEY'],
-                           'HS256').decode('utf-8')
+        token = jwt.encode(payload, current_app.config['SECRET_KEY'], 'HS256').decode(
+            'utf-8'
+        )
         return token
 
     @staticmethod
@@ -97,7 +98,7 @@ class User(Model):
                 token,
                 current_app.config['SECRET_KEY'],
                 algorithms=['HS256'],
-                audience='quiz'
+                audience='quiz',
             )
         except jwt.PyJWTError:
             return None
@@ -108,9 +109,8 @@ class Follow(Model):
     """
     关注
     """
-    __table_args__ = (
-        PrimaryKeyConstraint('follower_id', 'followed_id'),
-    )
+
+    __table_args__ = (PrimaryKeyConstraint('follower_id', 'followed_id'),)
 
     follower_id = db.Column(db.Integer, comment='关注用户id')
     followed_id = db.Column(db.Integer, comment='被关注用户id')

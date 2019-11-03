@@ -28,6 +28,7 @@ class Singleton(type):
     """
     单例
     """
+
     _instances = dict()
 
     def __call__(cls, *args, **kwargs):
@@ -44,4 +45,4 @@ def paginate(results: list, page=1, size=10):
     :param size
     :return:
     """
-    return results[(page - 1) * size: size + (page - 1) * size]
+    return results[(page - 1) * size : size + (page - 1) * size]

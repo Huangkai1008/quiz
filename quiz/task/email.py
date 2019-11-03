@@ -15,13 +15,11 @@ def send_async_reg_email(subject, sender, recipients, token):
     :param token  jwt-token
     :return:
     """
-    message = Message(
-        subject=subject,
-        sender=sender,
-        recipients=recipients
-    )
+    message = Message(subject=subject, sender=sender, recipients=recipients)
 
-    message.html = render_template('send_reg_email.html',
-                                   confirm_url=f"{current_app.config['CONFIRM_EMAIL_URL']}/{token}")
+    message.html = render_template(
+        'send_reg_email.html',
+        confirm_url=f"{current_app.config['CONFIRM_EMAIL_URL']}/{token}",
+    )
 
     mail.send(message)

@@ -12,6 +12,7 @@ class Topic(Model):
     """
     主题/专题
     """
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, index=True, comment='文章作者id')
     topic_name = db.Column(db.String(54), comment='专题名')
@@ -23,6 +24,7 @@ class Article(Model):
     """
     文章
     """
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, index=True, comment='文章作者id')
     title = db.Column(db.String(128), comment='文章标题')
@@ -35,9 +37,8 @@ class ArticleVote(Model):
     """
     文章点赞, 只有点赞状态
     """
-    __table_args__ = (
-        PrimaryKeyConstraint('article_id', 'user_id'),
-    )
+
+    __table_args__ = (PrimaryKeyConstraint('article_id', 'user_id'),)
 
     user_id = db.Column(db.Integer, index=True, comment='点赞此文章的用户id')
     article_id = db.Column(db.Integer, index=True, comment='文章id')

@@ -33,10 +33,7 @@ def configure_sentry():
     """
     配置Sentry -- 必须在Flask APP构建前初始化
     """
-    sentry_sdk.init(
-        dsn=os.environ.get('DSN'),
-        integrations=[FlaskIntegration()]
-    )
+    sentry_sdk.init(dsn=os.environ.get('DSN'), integrations=[FlaskIntegration()])
 
 
 def configure_app(app):
@@ -59,6 +56,7 @@ def configure_extensions(app):
     cors.init_app(app)
     db.init_app(app)
     from quiz import model
+
     migrate.init_app(app, db=db, model=model)
     mail.init_app(app)
     redis_cli.init_app(app)
@@ -74,8 +72,12 @@ def configure_logging(app):
     if not path.exists():
         path.mkdir(parents=True)
     log_name = Path(path, 'quiz.log')
-    file_handler = RotatingFileHandler(log_name, maxBytes=5 * 1024 * 1024, backupCount=30)
-    formatter = logging.Formatter('[%(asctime)s] %(levelname)s in %(module)s: %(message)s')
+    file_handler = RotatingFileHandler(
+        log_name, maxBytes=5 * 1024 * 1024, backupCount=30
+    )
+    formatter = logging.Formatter(
+        '[%(asctime)s] %(levelname)s in %(module)s: %(message)s'
+    )
     file_handler.setFormatter(formatter)
 
     logger.addHandler(stream_handler)
@@ -95,7 +97,13 @@ def configure_errors(app):
     @app.errorhandler(Exception)
     def exception_handle(error):
         current_app.logger.warning(traceback.format_exc())
-        from quiz.exceptions import QuizException, ServerException, AuthException, NotFoundException
+        from quiz.exceptions import (
+            QuizException,
+            ServerException,
+            AuthException,
+            NotFoundException,
+        )
+
         if isinstance(error, (QuizException, AuthException, NotFoundException)):
             response = jsonify(dict(error))
             response.status_code = error.status_code

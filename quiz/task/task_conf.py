@@ -8,8 +8,6 @@ result_serializer = 'json'  # 结果序列化方式
 timezone = 'Asia/Shanghai'  # 时区
 enable_utc = False
 # 导入任务模块
-imports = ('quiz.task.email',
-           'quiz.task.persist',
-           )
+imports = ('quiz.task.email', 'quiz.task.persist')
 # beat-schedule文件位置
 beat_schedule_filename = 'quiz/task/beat_schedule/beat-schedule'

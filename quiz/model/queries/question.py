@@ -59,7 +59,11 @@ def get_answers(question_id, **params):
     if 'ids' in params:
         conditions.append(Answer.question_id.in_(params['ids']))
     if params.get('create_time_sort') is not None:
-        sort_condition = Answer.create_time.asc() if params['create_time_sort'] else Answer.create_time.desc()
+        sort_condition = (
+            Answer.create_time.asc()
+            if params['create_time_sort']
+            else Answer.create_time.desc()
+        )
         sort_conditions.append(sort_condition)
     if params.get('id_field_sort'):
         sort_condition = func.field(Answer.id, *params['ids'])
@@ -80,12 +84,12 @@ def get_answers_by_star_prior(question_id, agree_type, **params):
     答案列表-赞数优先
     :return:
     """
-    query = Answer.query \
-        .outerjoin(AnswerVote, Answer.id == AnswerVote.answer_id) \
-        .filter(AnswerVote.agree == agree_type,
-                Answer.question_id == question_id) \
-        .add_columns(func.count(AnswerVote.answer_id).label('vote_up_count')) \
+    query = (
+        Answer.query.outerjoin(AnswerVote, Answer.id == AnswerVote.answer_id)
+        .filter(AnswerVote.agree == agree_type, Answer.question_id == question_id)
+        .add_columns(func.count(AnswerVote.answer_id).label('vote_up_count'))
         .order_by('vote_up_count')
+    )
 
     if params.get('size') and params.get('page'):
         query = utils.and_pagination(query, params['page'], params['size'])
@@ -99,11 +103,14 @@ def get_answers_by_intelligence(question_id):
     :param question_id:
     :return:
     """
-    query = Answer.query \
-        .outerjoin(AnswerVote, Answer.id == AnswerVote.answer_id) \
-        .filter(Answer.question_id == question_id) \
-        .add_columns(func.count(or_(AnswerVote.agree == 1, None)).label('vote_up_count'),
-                     func.count(or_(AnswerVote.agree == 0, None)).label('vote_down_count'))
+    query = (
+        Answer.query.outerjoin(AnswerVote, Answer.id == AnswerVote.answer_id)
+        .filter(Answer.question_id == question_id)
+        .add_columns(
+            func.count(or_(AnswerVote.agree == 1, None)).label('vote_up_count'),
+            func.count(or_(AnswerVote.agree == 0, None)).label('vote_down_count'),
+        )
+    )
     return query.all()
 
 

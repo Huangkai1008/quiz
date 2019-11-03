@@ -25,8 +25,10 @@ def vote_answer(question_id, answer_id):
     # 更新该回答的点赞数
     if agree == AnswerVote.agree.value and past_agree != agree:  # 点赞数 +1
         redis_api.answer_vote_count_incr(question_id, answer_id, 1)
-    if agree in {AnswerVote.disagree.value, AnswerVote.cancel.value} \
-            and past_agree != agree:  # 点赞数 -1
+    if (
+        agree in {AnswerVote.disagree.value, AnswerVote.cancel.value}
+        and past_agree != agree
+    ):  # 点赞数 -1
         redis_api.answer_vote_count_incr(question_id, answer_id, -1)
 
 
@@ -48,25 +50,41 @@ def get_answers(question_id, sort_choice, page, size):
     :return:
     """
     if sort_choice == AnswerSortChoice.up_to_date.value:  # 按最新排序
-        answers = question_api.get_answers(question_id, create_time_sort=False,
-                                           need_paginate=True, page=page, size=size)
+        answers = question_api.get_answers(
+            question_id,
+            create_time_sort=False,
+            need_paginate=True,
+            page=page,
+            size=size,
+        )
     elif sort_choice == AnswerSortChoice.star_prior.value:  # 按点赞数排行
         start = (page - 1) * size
         end = page * size - 1  # 因为Redis zrange的右区间是闭区间
-        answer_ids = [int(answer_id) for answer_id in redis_api.answer_vote_count_range(question_id, start, end)]
+        answer_ids = [
+            int(answer_id)
+            for answer_id in redis_api.answer_vote_count_range(question_id, start, end)
+        ]
         if answer_ids:  # 存在排行数据在缓存
-            answers = question_api.get_answers(question_id, ids=answer_ids, id_field_sort=True)
+            answers = question_api.get_answers(
+                question_id, ids=answer_ids, id_field_sort=True
+            )
         else:
-            items = question_api.get_answers_by_star_prior(question_id, agree_type=AnswerVote.agree.value,
-                                                           page=page, size=size)
+            items = question_api.get_answers_by_star_prior(
+                question_id, agree_type=AnswerVote.agree.value, page=page, size=size
+            )
             answers = list()
             for item in items:
                 answer = dict(item.Answer)
-                redis_api.answer_vote_count_add(question_id, answer['id'], item.vote_up_count)  # 写回到缓存
+                redis_api.answer_vote_count_add(
+                    question_id, answer['id'], item.vote_up_count
+                )  # 写回到缓存
                 answers.append(answer)
     else:  # 默认是智能排序
         items = question_api.get_answers_by_intelligence(question_id)
-        items.sort(key=lambda x: confidence(up=x.vote_up_count, down=x.vote_down_count), reverse=True)
+        items.sort(
+            key=lambda x: confidence(up=x.vote_up_count, down=x.vote_down_count),
+            reverse=True,
+        )
         answers = [dict(item.Answer) for item in utils.paginate(items, page, size)]
 
     return answers
@@ -83,7 +101,11 @@ def _confidence(up, down):
     n = up + down  # 样本人数
     z = 1.6
     phat = float(up) / n
-    return (phat + z ** 2 / (2 * n) - z * math.sqrt((phat * (1 - phat) + z * z / (4 * n)) / n)) / (1 + z ** 2 / n)
+    return (
+        phat
+        + z ** 2 / (2 * n)
+        - z * math.sqrt((phat * (1 - phat) + z * z / (4 * n)) / n)
+    ) / (1 + z ** 2 / n)
 
 
 def confidence(up, down):

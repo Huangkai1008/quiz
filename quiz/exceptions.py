@@ -8,6 +8,7 @@ class QuizException(Exception):
     """
     前端参数异常
     """
+
     status_code = 400
 
     def __init__(self, message):
@@ -23,6 +24,7 @@ class AuthException(Exception):
     """
     权限异常
     """
+
     status_code = 401
 
     def __init__(self, message):
@@ -38,6 +40,7 @@ class NotFoundException(Exception):
     """
     Not Found异常
     """
+
     status_code = 404
 
     def __init__(self, message):
@@ -53,6 +56,7 @@ class ServerException(Exception):
     """
     服务器内部错误
     """
+
     status_code = 500
 
     def __init__(self, message):
@@ -68,4 +72,5 @@ class ValidateException(QuizException):
     """
     验证json数据错误
     """
+
     pass

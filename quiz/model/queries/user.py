@@ -44,12 +44,17 @@ def create_follow(follower_id, followed_id):
 
 def exist_follow(follower_id, followed_id):
     """判断是否有关注关系"""
-    exist = db.session.query(exists().where(and_(Follow.follower_id == follower_id,
-                                                 Follow.followed_id == followed_id))).scalar()
+    exist = db.session.query(
+        exists().where(
+            and_(Follow.follower_id == follower_id, Follow.followed_id == followed_id)
+        )
+    ).scalar()
     return exist
 
 
 def get_followed(follower_id):
     """获取关注的所有用户"""
-    query = db.session.query(Follow.followed_id, Follow.follow_time).filter_by(follower_id=follower_id)
+    query = db.session.query(Follow.followed_id, Follow.follow_time).filter_by(
+        follower_id=follower_id
+    )
     return query.all()

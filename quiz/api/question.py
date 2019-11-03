@@ -59,9 +59,9 @@ def question_answers(question_id):
     """
     params = AnswerForm(**request.args.to_dict()).data
 
-    answers = question_resource.get_answers(question_id, params['sort_choice'],
-                                            params['page'],
-                                            params['size'])
+    answers = question_resource.get_answers(
+        question_id, params['sort_choice'], params['page'], params['size']
+    )
     return dict(answers=answers)
 
 
@@ -73,7 +73,9 @@ def answer_question(question_id):
     answer_schema.validate()
 
     user_id = g.current_user.id
-    answer = question_api.create_answer(user_id=user_id, question_id=question_id, **answer_schema.instance)
+    answer = question_api.create_answer(
+        user_id=user_id, question_id=question_id, **answer_schema.instance
+    )
     return dict(answer)
 
 

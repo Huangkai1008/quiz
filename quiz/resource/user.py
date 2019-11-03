@@ -36,17 +36,21 @@ def resend_confirm_email(email):
 
 
 def _send_confirm_email(email, token):
-    send_async_reg_email.delay('[Quiz] Confirm Your Account',
-                               current_app.config['MAIL_DEFAULT_SENDER'],
-                               [email],
-                               token)
+    send_async_reg_email.delay(
+        '[Quiz] Confirm Your Account',
+        current_app.config['MAIL_DEFAULT_SENDER'],
+        [email],
+        token,
+    )
 
 
 def get_followed():
     """获取用户关注的所有用户"""
     follower_id = g.current_user.id
 
-    followed_ids = [follower.followed_id for follower in user_api.get_followed(follower_id)]
+    followed_ids = [
+        follower.followed_id for follower in user_api.get_followed(follower_id)
+    ]
     users = user_api.get_users(user_ids=followed_ids)
     return users
 

@@ -14,6 +14,7 @@ class Question(Model):
     """
     问题
     """
+
     id = db.Column(db.BigInteger, primary_key=True)
     user_id = db.Column(db.Integer, index=True, comment='提问用户id')
     title = db.Column(db.String(255), unique=True, comment='标题')
@@ -27,6 +28,7 @@ class Answer(Model):
     """
     回答
     """
+
     id = db.Column(db.BigInteger, primary_key=True)
     user_id = db.Column(db.Integer, index=True, comment='回答用户id')
     question_id = db.Column(db.BigInteger, index=True, comment='问题id')
@@ -39,9 +41,8 @@ class AnswerVote(Model):
     """
     回答投票 包括赞同/反对
     """
-    __table_args__ = (
-        PrimaryKeyConstraint('answer_id', 'user_id'),
-    )
+
+    __table_args__ = (PrimaryKeyConstraint('answer_id', 'user_id'),)
 
     user_id = db.Column(db.Integer, index=True, comment='赞同/反对此回答的用户id')
     answer_id = db.Column(db.Integer, index=True, comment='回答id')
@@ -52,6 +53,7 @@ class Comment(Model):
     """
     回答评论
     """
+
     id = db.Column(db.BigInteger, primary_key=True)
     user_id = db.Column(db.Integer, comment='评论用户id')
     parent_id = db.Column(db.Integer, comment='父评论id')
@@ -63,9 +65,8 @@ class CommentVote(Model):
     """
     评论点赞, 只有点赞状态
     """
-    __table_args__ = (
-        PrimaryKeyConstraint('comment_id', 'user_id'),
-    )
+
+    __table_args__ = (PrimaryKeyConstraint('comment_id', 'user_id'),)
 
     user_id = db.Column(db.Integer, index=True, comment='点赞此文章的用户id')
     comment_id = db.Column(db.Integer, index=True, comment='评论id')

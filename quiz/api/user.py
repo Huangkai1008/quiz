@@ -18,9 +18,11 @@ def register():
     """
     reg_schema = RegisterSchema(request.json)
     reg_schema.validate()
-    user = user_resource.user_register(username=reg_schema['username'],
-                                       email=reg_schema['email'],
-                                       password=reg_schema['password'])
+    user = user_resource.user_register(
+        username=reg_schema['username'],
+        email=reg_schema['email'],
+        password=reg_schema['password'],
+    )
     return dict(user)
 
 
@@ -34,7 +36,9 @@ def confirm(token):
 
         if g.current_user.verify_confirm_jwt(token):
             token = g.current_user.get_jwt()
-            return dict(token=token, message='You have confirmed your account, thanks! ')
+            return dict(
+                token=token, message='You have confirmed your account, thanks! '
+            )
         else:
             raise ValidateException('The confirmation link is invalid or has expired')
 
@@ -83,4 +87,3 @@ def follow(user_id):
     """开始关注新用户"""
     user_resource.follow_user(user_id)
     return dict()
-

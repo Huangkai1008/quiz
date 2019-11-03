@@ -12,12 +12,8 @@ def follow_add(follower_id, followed_id):
     value --> user_id  关注用户id/被关注用户id
     :return:
     """
-    redis_cli.pipe.sadd(
-        f'quiz:user:{follower_id}:followed', followed_id
-    )
-    redis_cli.pipe.sadd(
-        f'quiz:user:{followed_id}:followers', follower_id
-    )
+    redis_cli.pipe.sadd(f'quiz:user:{follower_id}:followed', followed_id)
+    redis_cli.pipe.sadd(f'quiz:user:{followed_id}:followers', follower_id)
     redis_cli.pipe.execute()
 
 
@@ -31,12 +27,8 @@ def follow_remove(follower_id, followed_id):
     value --> user_id  关注用户id/被关注用户id
     :return:
     """
-    redis_cli.pipe.srem(
-        f'quiz:user:{follower_id}:followed', followed_id
-    )
-    redis_cli.pipe.srem(
-        f'quiz:user:{followed_id}:followers', follower_id
-    )
+    redis_cli.pipe.srem(f'quiz:user:{follower_id}:followed', followed_id)
+    redis_cli.pipe.srem(f'quiz:user:{followed_id}:followers', follower_id)
     redis_cli.pipe.execute()
 
 
@@ -46,9 +38,7 @@ def followed_get(user_id):
     :param user_id: 用户id
     :return:
     """
-    return redis_cli.r.smembers(
-        f'quiz:user:{user_id}:followed'
-    )
+    return redis_cli.r.smembers(f'quiz:user:{user_id}:followed')
 
 
 def followers_get(user_id):
@@ -57,9 +47,7 @@ def followers_get(user_id):
     :param user_id:
     :return:
     """
-    return redis_cli.r.smembers(
-        f'quiz:user:{user_id}:followers'
-    )
+    return redis_cli.r.smembers(f'quiz:user:{user_id}:followers')
 
 
 def answer_vote_update(user_id, answer_id, agree):
@@ -73,9 +61,7 @@ def answer_vote_update(user_id, answer_id, agree):
     :return:
     """
     return redis_cli.r.hset(
-        QuestionRedisKey.ANSWER_VOTE.value,
-        f'{answer_id}::{user_id}',
-        agree
+        QuestionRedisKey.ANSWER_VOTE.value, f'{answer_id}::{user_id}', agree
     )
 
 
@@ -87,8 +73,7 @@ def answer_vote_get(user_id, answer_id):
     :return:
     """
     return redis_cli.r.hget(
-        QuestionRedisKey.ANSWER_VOTE.value,
-        f'{answer_id}::{user_id}'
+        QuestionRedisKey.ANSWER_VOTE.value, f'{answer_id}::{user_id}'
     )
 
 
@@ -97,9 +82,7 @@ def answer_vote_scan():
     获得所有点赞状态
     :return:
     """
-    return redis_cli.r.hscan_iter(
-        QuestionRedisKey.ANSWER_VOTE.value
-    )
+    return redis_cli.r.hscan_iter(QuestionRedisKey.ANSWER_VOTE.value)
 
 
 def answer_vote_count_add(question_id, answer_id, score):
@@ -111,8 +94,7 @@ def answer_vote_count_add(question_id, answer_id, score):
     :return:
     """
     redis_cli.r.zadd(
-        f'quiz:question:{question_id}:answer:vote:count',
-        mapping={answer_id: score}
+        f'quiz:question:{question_id}:answer:vote:count', mapping={answer_id: score}
     )
 
 
@@ -126,9 +108,7 @@ def answer_vote_count_incr(question_id, answer_id, increment):
     :return:
     """
     return redis_cli.r.zincrby(
-        f'quiz:question:{question_id}:answer:vote:count',
-        increment,
-        answer_id
+        f'quiz:question:{question_id}:answer:vote:count', increment, answer_id
     )
 
 
@@ -141,7 +121,5 @@ def answer_vote_count_range(question_id, start=0, stop=-1):
     :return:
     """
     return redis_cli.r.zrevrange(
-        f'quiz:question:{question_id}:answer:vote:count',
-        start,
-        stop
+        f'quiz:question:{question_id}:answer:vote:count', start, stop
     )

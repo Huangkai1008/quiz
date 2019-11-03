@@ -5,6 +5,7 @@ class ModelMixin:
     """
     扩展model
     """
+
     _hide_columns = set()  # 序列化时隐藏的字段
 
     def create(self, commit=True):

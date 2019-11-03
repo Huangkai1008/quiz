@@ -8,19 +8,16 @@ class UserSchemas(Enum):
         properties={
             'username': {'type': 'string', 'maxLength': 128},
             'password': {'type': 'string'},
-            'email': {'type': 'string', 'format': 'email'}
+            'email': {'type': 'string', 'format': 'email'},
         },
-        additionalProperties=False
+        additionalProperties=False,
     )
 
     LOGIN_SCHEMA = dict(
         type='object',
         required=['username', 'password'],
-        properties={
-            'username': {'type': 'string'},
-            'password': {'type': 'string'}
-        },
-        additionalProperties=False
+        properties={'username': {'type': 'string'}, 'password': {'type': 'string'}},
+        additionalProperties=False,
     )
 
 
@@ -30,25 +27,21 @@ class QuestionSchemas(Enum):
         required=['title'],
         properties={
             'title': {'type': 'string', 'maxLength': 255},
-            'content': {'type': 'string'}
+            'content': {'type': 'string'},
         },
-        additionalProperties=False
+        additionalProperties=False,
     )
 
     ANSWER_SCHEMA = dict(
         type='object',
         required=['content'],
-        properties={
-            'content': {'type': 'string'}
-        },
-        additionalProperties=False
+        properties={'content': {'type': 'string'}},
+        additionalProperties=False,
     )
 
     VOTE_SCHEMA = dict(
         type='object',
         required=['agree'],
-        properties={
-            'agree': {'type': 'number', 'enum': [1, 0, -1]}
-        },
-        additionalProperties=False
+        properties={'agree': {'type': 'number', 'enum': [1, 0, -1]}},
+        additionalProperties=False,
     )
