@@ -17,7 +17,7 @@ class QuizException(Exception):
 
     def __iter__(self):
         for k in ['message', 'status_code']:
-            yield (k, getattr(self, k))
+            yield k, getattr(self, k)
 
 
 class AuthException(Exception):
