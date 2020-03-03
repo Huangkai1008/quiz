@@ -33,7 +33,7 @@ class AuthException(Exception):
 
     def __iter__(self):
         for k in ['message', 'status_code']:
-            yield (k, getattr(self, k))
+            yield k, getattr(self, k)
 
 
 class NotFoundException(Exception):
@@ -49,7 +49,7 @@ class NotFoundException(Exception):
 
     def __iter__(self):
         for k in ['message', 'status_code']:
-            yield (k, getattr(self, k))
+            yield k, getattr(self, k)
 
 
 class ServerException(Exception):
@@ -65,7 +65,7 @@ class ServerException(Exception):
 
     def __iter__(self):
         for k in ['message', 'status_code']:
-            yield (k, getattr(self, k))
+            yield k, getattr(self, k)
 
 
 class ValidateException(QuizException):
