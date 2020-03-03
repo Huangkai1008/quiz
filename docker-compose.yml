@@ -1,0 +1,25 @@
+version: '3'
+services:
+  redis:
+    image: redis:latest
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: quiz
+    container_name: quiz
+    volumes:
+      - ../quiz:/app
+      - /var/log/quiz:/app/logs
+      - /usr/share/zoneinfo/Asia/Shanghai:/etc/localtime
+    env_file:
+      - .env
+    ports:
+      - 6060:6060
+    restart: always
+    command: flask run
+    depends_on:
+      - redis
+
+

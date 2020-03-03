@@ -13,6 +13,9 @@ SQLALCHEMY_POOL_SIZE = int(os.environ.get('SQLALCHEMY_POOL_SIZE'))
 SQLALCHEMY_TRACK_MODIFICATIONS = bool(os.environ.get('SQLALCHEMY_TRACK_MODIFICATIONS'))
 SQLALCHEMY_RECORD_QUERIES = bool(os.environ.get('SQLALCHEMY_RECORD_QUERIES'))
 
+# ================ redis ================
+REDIS_URL = os.environ.get('REDIS_URL')
+
 # ================ flask_mail ================
 MAIL_SERVER = os.environ.get('MAIL_SERVER')
 MAIL_PORT = int(os.environ.get('MAIL_PORT'))
