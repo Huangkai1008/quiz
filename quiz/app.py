@@ -11,7 +11,6 @@ from werkzeug.exceptions import HTTPException
 from sentry_sdk.integrations.flask import FlaskIntegration
 
 from quiz.tools import QuizFlask
-from quiz.config import config_from_object
 from quiz.api import index, user, question, topic
 from quiz.extensions import cors, db, migrate, mail, redis_cli
 
@@ -38,7 +37,9 @@ def configure_sentry():
 
 def configure_app(app):
     """配置app"""
-    config_from_object(app)
+    from quiz.settings import config
+    flask_env = os.getenv('FLASK_ENV')
+    app.config.from_object(config.get(flask_env))
     # 不检查路由中最后是否有斜杠/
     app.url_map.strict_slashes = False
 
@@ -56,7 +57,6 @@ def configure_extensions(app):
     cors.init_app(app)
     db.init_app(app)
     from quiz import model
-
     migrate.init_app(app, db=db, model=model)
     mail.init_app(app)
     redis_cli.init_app(app)
