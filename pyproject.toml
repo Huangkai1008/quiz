@@ -7,7 +7,7 @@ license = "MIT"
 
 [tool.poetry.dependencies]
 python = "^3.7"
-celery = {version = "4.3.0", extras = ["auth", "eventlet", "py-amqp", "msgpack", "redis"]}
+celery = {version = "5.2.2", extras = ["auth", "eventlet", "py-amqp", "msgpack", "redis"]}
 flask-cors = "3.0.2"
 flask-httpauth = "3.3.0"
 flask-mail = "0.9.1"
