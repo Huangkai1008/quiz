@@ -16,7 +16,7 @@ flask-sqlalchemy = "2.4.0"
 flower = "0.9.3"
 gevent = "1.4.0"
 jsonschema = {version = "3.0.1", extras = ["format"]}
-pyjwt = "1.7.1"
+pyjwt = "2.4.0"
 python-dotenv = "0.10.2"
 sentry-sdk = {version = "0.10.0", extras = ["flask"]}
 wtforms = "2.2.1"
